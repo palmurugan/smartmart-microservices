@@ -1,0 +1,28 @@
+import org.springframework.boot.gradle.tasks.run.BootRun
+
+// user-service/build.gradle
+dependencies {
+    implementation project(':common')
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'org.postgresql:postgresql'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+// Custom task to run this service independently
+tasks.register('runIndependently', BootRun) {
+    description = 'Run user-service independently'
+    group = 'application'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.example.user.UserServiceApplication'
+
+    // Set different port for independent run
+    systemProperty 'spring.profiles.active', 'standalone'
+}
+
+// Configure default bootRun for monolith compatibility
+bootRun {
+    systemProperty 'spring.profiles.active', project.hasProperty('profile') ? project.profile : 'standalone'
+}

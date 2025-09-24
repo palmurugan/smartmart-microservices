@@ -1,0 +1,11 @@
+plugins {
+    id 'java-library'
+}
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    // Add common-security specific dependencies here
+    implementation project(':common:common-domain')
+}

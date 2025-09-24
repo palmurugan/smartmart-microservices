@@ -1,0 +1,144 @@
+spring:
+  application:
+    name: erp-lite-monolithic
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # We use Liquibase for schema management
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/erp_lite}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: false
+
+  liquibase:
+    enabled: false
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    default-schema: public
+    contexts: ${LIQUIBASE_CONTEXTS:dev}
+    parameters:
+      logLevel: info
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+      fail-on-invalid-subtype: false
+    default-property-inclusion: non_null
+
+server:
+  port: 8081
+  servlet:
+    context-path: /erp-lite
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+  metrics:
+    enable:
+      jvm: true
+      system: true
+      logback: true
+      process: true
+      tomcat: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5,0.75,0.95,0.99
+      sla:
+        http.server.requests: 1s,5s
+
+logging:
+  level:
+    root: INFO
+    com.erp.lite: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.web: INFO
+    org.hibernate.validator: WARN
+    org.springframework.orm.jpa: WARN
+    org.hibernate: WARN
+    org.springframework.jdbc: WARN
+    liquibase: INFO
+
+  file:
+    name: logs/order-service.log
+    max-size: 100MB
+    max-history: 7
+    total-size-cap: 1GB
+    path: logs
+
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n%wEx"
+
+# Custom application properties
+app:
+  order:
+    default-page-size: 20
+    max-page-size: 100
+    number-generator:
+      prefix: ORD
+      sequence-length: 8
+
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+    allowed-headers: "*"
+    max-age: 3600
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+    filter: true
+    display-request-duration: true
+    persist-authorization: true
+    try-it-out-enabled: true
+    syntax-highlight:
+      activate: true
+      theme: obsidian
+# OpenAPI/Swagger Configuration
+openapi:
+  dev-url: http://localhost:8081
+  prod-url: https://api.erplite.com/order-service
