@@ -1,0 +1,14 @@
+// common/common-domain/build.gradle
+plugins {
+    id 'java-library'
+}
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    api 'org.springframework:spring-context'
+    api 'com.fasterxml.jackson.core:jackson-annotations'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}

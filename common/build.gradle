@@ -1,0 +1,13 @@
+plugins {
+    id 'java-library'
+}
+
+// Disable Spring Boot plugin for common modules since they're libraries
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    api project(':common:common-domain')
+    api project(':common:common-security')
+    api project(':common:common-config')
+}

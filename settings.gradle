@@ -1,0 +1,13 @@
+rootProject.name = 'erp-lite'
+
+// Common modules
+include ':common'
+include ':common:common-domain'
+include ':common:common-security'
+include ':common:common-config'
+
+// Service modules
+include ':user-service'
+
+// Monolithic application
+include ':monolithic-runner'

@@ -1,0 +1,35 @@
+// monolith-runner/build.gradle
+dependencies {
+    implementation project(':common')
+    implementation project(':user-service')
+    
+    // Additional dependencies for monolith coordination
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+bootRun {
+    systemProperty 'server.port', '8080'
+    systemProperty 'spring.profiles.active', 'monolith'
+    
+    // Enable all services in monolith mode
+    systemProperty 'service.user.enabled', 'true'
+    systemProperty 'service.auth.enabled', 'true'
+    systemProperty 'service.billing.enabled', 'true'
+    systemProperty 'service.partner.enabled', 'true'
+    systemProperty 'service.accounting.enabled', 'true'
+    systemProperty 'service.order.enabled', 'true'
+}
+
+// Task to build fat JAR for monolith deployment
+tasks.register('buildMonolith', org.springframework.boot.gradle.tasks.bundling.BootJar) {
+    description = 'Build monolith JAR with all services'
+    group = 'build'
+
+    archiveClassifier = 'monolith'
+    mainClass = 'com.erp.lite.MonolithApplication'
+}
