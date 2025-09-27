@@ -1,4 +1,4 @@
-rootProject.name = 'erp-lite'
+rootProject.name = 'smartmart-microservices'
 
 // Common modules
 include ':common'
