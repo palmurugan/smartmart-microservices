@@ -1,0 +1,23 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - name: user-service
+    url: http://host.docker.internal:7071
+    routes:
+      - name: user-service-route
+        paths:
+          - /user-service
+        strip_path: true
+
+plugins:
+  - name: oidc
+    service: user-service
+    config:
+      client_id: smart-mart-web
+      client_secret: "dummy"   # required non-empty, use actual secret if confidential client
+      discovery: http://192.168.1.34:8080/realms/smartmart/.well-known/openid-configuration
+      bearer_only: "yes"
+      realm: smartmart
+      use_jwks: "yes"
+      ssl_verify: "no"
