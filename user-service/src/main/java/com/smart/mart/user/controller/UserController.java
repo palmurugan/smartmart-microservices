@@ -1,6 +1,5 @@
 package com.smart.mart.user.controller;
 
-import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,4 +16,6 @@ public class UserController {
 
 }
 
-record User(String name, String status) {}
+record User(String name, String status) {
+
+}
