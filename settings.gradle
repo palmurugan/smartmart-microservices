@@ -8,6 +8,7 @@ include ':common:common-config'
 
 // Service modules
 include ':user-service'
+include ':catalog-service'
 
 // Monolithic application
 include ':monolithic-runner'

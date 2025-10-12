@@ -2,6 +2,7 @@
 dependencies {
     implementation project(':common')
     implementation project(':user-service')
+    implementation project(':catalog-service')
     
     // Additional dependencies for monolith coordination
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -18,6 +19,8 @@ bootRun {
     
     // Enable all services in monolith mode
     systemProperty 'service.user.enabled', 'true'
+    systemProperty 'service.catalog.enabled', 'true'
+
     systemProperty 'service.auth.enabled', 'true'
     systemProperty 'service.billing.enabled', 'true'
     systemProperty 'service.partner.enabled', 'true'
