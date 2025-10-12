@@ -28,3 +28,8 @@ spring:
           lob:
             non_contextual_creation: true
 
+kafka:
+  topic:
+    category-events: category-events
+  consumer:
+    group-id: category-search-indexer

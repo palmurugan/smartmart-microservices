@@ -1,0 +1,62 @@
+{
+  "namespace": "com.smart.mart.catalog.avro",
+  "type": "record",
+  "name": "CategoryEventAvro",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string"
+    },
+    {
+      "name": "eventType",
+      "type": "string"
+    },
+    {
+      "name": "occurredOn",
+      "type": "string"
+    },
+    {
+      "name": "categoryId",
+      "type": "string"
+    },
+    {
+      "name": "orgId",
+      "type": "string"
+    },
+    {
+      "name": "parentId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "description",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "metadata",
+      "type": [
+        "null",
+        {
+          "type": "map",
+          "values": "string"
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "isActive",
+      "type": "boolean"
+    }
+  ]
+}
