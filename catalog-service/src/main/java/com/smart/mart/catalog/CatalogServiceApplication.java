@@ -9,11 +9,3 @@ public class CatalogServiceApplication {
         SpringApplication.run(CatalogServiceApplication.class, args);
     }
 }
-
-// This annotation enables the service to be scanned when running in monolith mode
-@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(
-    name = "service.catalog.enabled",
-    havingValue = "true", 
-    matchIfMissing = true
-)
-class CatalogServiceConfiguration {}

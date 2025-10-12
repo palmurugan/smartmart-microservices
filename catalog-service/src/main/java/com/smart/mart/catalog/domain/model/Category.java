@@ -123,6 +123,8 @@ public class Category {
         if (newParentId != null && newParentId.equals(this.id)) {
             throw new InvalidCategoryException("Cannot move category to itself");
         }
+        this.parentId = newParentId;
+        this.updatedAt = ZonedDateTime.now();
     }
 
     public boolean isRoot() {
@@ -142,7 +144,7 @@ public class Category {
         private Metadata metadata;
         private ZonedDateTime createdAt;
         private ZonedDateTime updatedAt;
-        private boolean isActive;
+        private boolean isActive = true;
 
         public Builder id(CategoryId id) {
             this.id = id;
