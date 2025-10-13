@@ -1,0 +1,44 @@
+# Stop everything
+docker-compose down -v
+
+# Start fresh
+docker-compose up -d
+
+# Watch the logs
+docker-compose logs -f
+
+# Check if all services are running
+docker-compose ps
+
+# View logs if needed
+docker-compose logs -f kafka-ui
+
+========================
+# List topics (this confirms Kafka is working)
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --list
+
+# Get cluster info
+docker exec -it kafka kafka-broker-api-versions --bootstrap-server localhost:9092
+
+# Check if Schema Registry container is running
+curl http://localhost:8081/subjects
+======================= Topic Creations =====================================
+# Create topic with specific partitions and replication factor
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 \
+  --create --topic dev.catalog.category.events \
+  --partitions 3 \
+  --replication-factor 1
+
+
+# Basic topic creation
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 \
+  --create --topic my-topic
+
+# Create topic with custom configuration
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 \
+  --create --topic my-topic \
+  --partitions 3 \
+  --replication-factor 1 \
+  --config retention.ms=86400000 \
+  --config segment.bytes=1073741824
+
